@@ -7,61 +7,78 @@
   <style>
     body {
       margin: 0;
+      display: flex;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(to bottom right, #e3f2fd, #ffffff);
+      background-color: #fefefe;
       color: #1b5e20;
     }
-    .hero {
+
+    .sidebar {
+      width: 220px;
+      background-color: #e0f2e9;
+      padding: 1.5em 1em;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+      min-height: 100vh;
+    }
+
+    .sidebar h2 {
+      font-size: 1.5em;
+      margin-bottom: 1em;
       text-align: center;
-      background: url('https://cdn.pixabay.com/photo/2017/09/06/11/17/leaves-2722564_1280.png') repeat-x top center;
-      background-size: contain;
+      color: #2e7d32;
+    }
+
+    .region-btn {
+      display: block;
+      width: 100%;
+      background: #c8e6c9;
+      color: #2e7d32;
+      font-size: 1em;
+      padding: 0.75em;
+      border: none;
+      border-radius: 8px;
+      margin-bottom: 0.5em;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .region-btn:hover {
+      background: #a5d6a7;
+      color: #1b5e20;
+    }
+
+    .region-btn.active {
+      background: #81c784;
+      font-weight: bold;
+    }
+
+    .main {
+      flex: 1;
       padding: 2em;
-      animation: floatLeaves 10s linear infinite;
-      position: relative;
+      background: #f1f8e9;
     }
-    @keyframes floatLeaves {
-      0% { background-position-x: 0; }
-      100% { background-position-x: 1000px; }
+
+    .header {
+      text-align: center;
+      margin-bottom: 1.5em;
     }
-    h2 {
-      font-size: 3em;
-      color: #004d40;
+
+    .header h1 {
+      font-size: 2em;
+      color: #33691e;
       margin: 0;
     }
-    .regions {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1em;
-      padding: 1em;
-    }
-    .region-btn {
-      background: #aed581;
-      color: #1b5e20;
-      font-size: 1.2em;
-      padding: 1em;
-      border-radius: 15px;
-      border: none;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .region-btn:hover {
-      background: #7cb342;
-      color: white;
-    }
-    .plant-info {
-      padding: 2em;
-      background-color: #f1f8e9;
-    }
+
     .plant-card {
       border: 2px dashed #c5e1a5;
       border-radius: 12px;
       padding: 1em;
       margin-bottom: 1.5em;
       background: #ffffff;
-      box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.08);
+      box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.05);
       overflow: hidden;
     }
+
     .plant-card img {
       width: 100px;
       height: 100px;
@@ -71,27 +88,41 @@
       float: left;
       margin-right: 1em;
     }
-    .speak-btn, .surprise-btn {
+
+    .speak-btn {
       background: #66bb6a;
       color: white;
       border: none;
-      padding: 0.5em 1em;
-      border-radius: 10px;
+      padding: 0.4em 0.9em;
+      border-radius: 8px;
       cursor: pointer;
       margin-top: 0.5em;
     }
-    .speak-btn:hover, .surprise-btn:hover {
+
+    .speak-btn:hover {
       background: #388e3c;
+    }
+
+    .surprise-btn {
+      background: #43a047;
+      color: white;
+      font-size: 1em;
+      padding: 0.7em;
+      border: none;
+      border-radius: 8px;
+      width: 100%;
+      margin-top: 1em;
+      cursor: pointer;
+    }
+
+    .surprise-btn:hover {
+      background: #2e7d32;
     }
   </style>
 </head>
 <body>
-  <div class="hero">
-    <h2>🌿 Indigenous Plant Explorer 🌿</h2>
-    <p>Explore native and underutilized plants by region 🌍</p>
-  </div>
-
-  <div class="regions">
+  <div class="sidebar">
+    <h2>Regions</h2>
     <button class="region-btn" onclick="showRegion('Northern Ethiopia')">Northern Ethiopia</button>
     <button class="region-btn" onclick="showRegion('Southern Ethiopia')">Southern Ethiopia</button>
     <button class="region-btn" onclick="showRegion('Western Ethiopia')">Western Ethiopia</button>
@@ -102,8 +133,14 @@
     <button class="surprise-btn" onclick="surpriseMe()">🌟 Surprise Me!</button>
   </div>
 
-  <div class="plant-info" id="plant-info">
-    <h3 style="text-align:center;">Select a region to discover native plants</h3>
+  <div class="main">
+    <div class="header">
+      <h1>🌿 Indigenous Plant Explorer 🌿</h1>
+      <p>Explore native and underutilized plants across Africa</p>
+    </div>
+    <div class="plant-info" id="plant-info">
+      <h3 style="text-align:center;">Select a region to discover native plants</h3>
+    </div>
   </div>
 
   <script>
@@ -133,6 +170,12 @@
 
     function showRegion(regionName) {
       const container = document.getElementById('plant-info');
+      const buttons = document.querySelectorAll('.region-btn');
+      buttons.forEach(btn => btn.classList.remove('active'));
+
+      const activeBtn = Array.from(buttons).find(b => b.textContent === regionName);
+      if (activeBtn) activeBtn.classList.add('active');
+
       container.innerHTML = `<h3 style='text-align:center;'>🌱 Native Plants of ${regionName}</h3>`;
       const regionPlants = regions[regionName];
 
@@ -185,3 +228,4 @@
   </script>
 </body>
 </html>
+
