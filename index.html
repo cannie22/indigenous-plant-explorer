@@ -93,4 +93,38 @@
   </div>
 
   <script src="regions_data.js"></script>
+  <script>
+  function showRegion(regionName) {
+    const container = document.getElementById('plant-info');
+    container.innerHTML = `<h2>🌱 Plants of ${regionName}</h2>`;
+    
+    const regionPlants = regions[regionName];
+    if (!regionPlants || regionPlants.length === 0) {
+      container.innerHTML += `<p>No plant data available for this region.</p>`;
+      return;
+    }
+
+    regionPlants.forEach(plant => {
+      const safeId = plant.name.replace(/\s+/g, '-');
+      container.innerHTML += `
+        <div class="plant-card">
+          <div class="icons">🌿</div>
+          <h3>${plant.name}</h3>
+          <p id="desc-${safeId}">${plant.description}</p>
+          <button class="speak-btn" onclick="speakDescription('desc-${safeId}')">🔊 Read it</button>
+        </div>
+      `;
+    });
+  }
+
+  function speakDescription(id) {
+    const text = document.getElementById(id).innerText;
+    const msg = new SpeechSynthesisUtterance(text);
+    msg.lang = 'en-US';
+    msg.rate = 0.9;
+    msg.pitch = 1.2;
+    window.speechSynthesis.speak(msg);
+  }
+</script>
+
 
