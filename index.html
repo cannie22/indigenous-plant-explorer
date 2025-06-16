@@ -118,5 +118,70 @@
         { name: "Cordia africana (East African Cordia)", image: "https://upload.wikimedia.org/wikipedia/commons/3/30/Cordia_africana.jpg", description: "Used in furniture, rituals, and traditional medicine." }
       ],
       "Central Highlands": [
-        { name: "Coffea arabica (Arabica Coffee)", image: "https://upload.wikimedia.org/wi
+        { name: "Coffea arabica (Arabica Coffee)", image: "https://upload.wikimedia.org/wikipedia/commons/c/cc/Coffea_arabica_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-193.jpg", description: "Culturally important crop grown under shade." }
+      ],
+      "Tanzania": [
+        { name: "Allanblackia stuhlmannii (Butter Tree)", image: "https://upload.wikimedia.org/wikipedia/commons/a/a9/Allanblackia_stuhlmannii.jpg", description: "Seeds yield oil for food and industry." }
+      ],
+      "Zimbabwe": [
+        { name: "Uapaca kirkiana (Wild Loquat)", image: "https://upload.wikimedia.org/wikipedia/commons/e/e9/Uapaca_kirkiana_fruit.jpg", description: "Fruit-bearing tree valued for its sweet fruits." }
+      ],
+      "South Africa": [
+        { name: "Sclerocarya birrea (Marula)", image: "https://upload.wikimedia.org/wikipedia/commons/f/f3/Marula_fruits.jpg", description: "Used for juices, oils, and alcoholic beverages." }
+      ]
+    };
 
+    function showRegion(regionName) {
+      const container = document.getElementById('plant-info');
+      container.innerHTML = `<h3 style='text-align:center;'>🌱 Native Plants of ${regionName}</h3>`;
+      const regionPlants = regions[regionName];
+
+      if (!regionPlants || regionPlants.length === 0) {
+        container.innerHTML += `<p style='text-align:center;'>🚫 No plant data available for this region.</p>`;
+        return;
+      }
+
+      regionPlants.forEach(plant => {
+        const safeId = plant.name.replace(/\s+/g, '-');
+        container.innerHTML += `
+          <div class="plant-card">
+            <img src="${plant.image}" alt="${plant.name}" />
+            <div>
+              <h4>${plant.name}</h4>
+              <p id="desc-${safeId}">${plant.description}</p>
+              <button class="speak-btn" onclick="speakDescription('desc-${safeId}')">🔊 Read it to me</button>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    function speakDescription(id) {
+      const text = document.getElementById(id).innerText;
+      const msg = new SpeechSynthesisUtterance(text);
+      msg.rate = 0.9;
+      msg.pitch = 1.2;
+      msg.lang = 'en-US';
+      window.speechSynthesis.speak(msg);
+    }
+
+    function surpriseMe() {
+      const allPlants = Object.values(regions).flat();
+      const random = allPlants[Math.floor(Math.random() * allPlants.length)];
+      const container = document.getElementById('plant-info');
+      const safeId = random.name.replace(/\s+/g, '-');
+      container.innerHTML = `<h3 style='text-align:center;'>🌟 Surprise Plant!</h3>`;
+      container.innerHTML += `
+        <div class="plant-card">
+          <img src="${random.image}" alt="${random.name}" />
+          <div>
+            <h4>${random.name}</h4>
+            <p id="desc-${safeId}">${random.description}</p>
+            <button class="speak-btn" onclick="speakDescription('desc-${safeId}')">🔊 Read it to me</button>
+          </div>
+        </div>
+      `;
+    }
+  </script>
+</body>
+</html>
