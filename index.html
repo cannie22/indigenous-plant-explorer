@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Indigenous Plant Explorer</title>
-    <style>
+  <style>
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -17,10 +17,22 @@
       background-size: contain;
       padding: 2em;
       animation: floatLeaves 10s linear infinite;
+      position: relative;
     }
     @keyframes floatLeaves {
       0% { background-position-x: 0; }
       100% { background-position-x: 1000px; }
+    }
+    .mascot {
+      position: absolute;
+      bottom: -50px;
+      right: 20px;
+      animation: floatMascot 4s ease-in-out infinite;
+      width: 100px;
+    }
+    @keyframes floatMascot {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
     }
     h2 {
       font-size: 3em;
@@ -59,6 +71,7 @@
       margin-bottom: 1.5em;
       background: #ffffff;
       box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
     }
     .plant-card img {
       width: 100px;
@@ -87,6 +100,7 @@
   <div class="hero">
     <h2>🌿 Indigenous Plant Explorer 🌿</h2>
     <p>Explore native and underutilized plants by region 🌍</p>
+    <img class="mascot" src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExdGVscXExZXRxMnJ0eWN0c3gwbTI0ZXR5bjl1MDA3NzZvZGw2aWYwMyZlcD12MV9naWZzX3NlYXJjaCZjdD1n/Nx0rz3jtxtEre/giphy.gif" alt="Plant Mascot" />
   </div>
   <div class="regions">
     <button class="region-btn" onclick="showRegion('Northern Ethiopia')">Northern Ethiopia</button>
@@ -102,24 +116,24 @@
   <script>
     const regions = {
       "Northern Ethiopia": [
-        { name: "Ficus vasta", image: "https://upload.wikimedia.org/wikipedia/commons/8/8f/Ficus_vasta_tree.jpg", description: "Sacred fig tree used in rituals, shade, and animal fodder." },
-        { name: "Juniperus procera", image: "https://upload.wikimedia.org/wikipedia/commons/7/7f/Juniperus_procera_forest.jpg", description: "Used for timber, incense, and spiritual ceremonies." },
-        { name: "Acacia nilotica", image: "https://upload.wikimedia.org/wikipedia/commons/8/85/Acacia_nilotica.jpg", description: "Improves soil fertility and supports biodiversity." }
+        { name: "Ficus vasta (Warka Tree)", image: "https://upload.wikimedia.org/wikipedia/commons/8/8f/Ficus_vasta_tree.jpg", description: "Warka Tree — Sacred fig tree used in rituals, shade, and animal fodder." },
+        { name: "Juniperus procera (African Juniper)", image: "https://upload.wikimedia.org/wikipedia/commons/7/7f/Juniperus_procera_forest.jpg", description: "African Juniper — Used for timber, incense, and spiritual ceremonies." },
+        { name: "Acacia nilotica (Gum Arabic Tree)", image: "https://upload.wikimedia.org/wikipedia/commons/8/85/Acacia_nilotica.jpg", description: "Gum Arabic Tree — Improves soil fertility and supports biodiversity." }
       ],
       "Southern Ethiopia": [
-        { name: "Vernonia amygdalina", image: "https://upload.wikimedia.org/wikipedia/commons/6/6d/Vernonia_amygdalina.jpg", description: "Medicinal shrub for malaria and digestive aid." },
-        { name: "Erythrina brucei", image: "https://upload.wikimedia.org/wikipedia/commons/5/52/Erythrina_brucei.jpg", description: "Used for fencing and erosion control." },
-        { name: "Persea americana", image: "https://upload.wikimedia.org/wikipedia/commons/f/fd/Persea_americana_fruit.jpg", description: "Avocado tree for food and homegardens." }
+        { name: "Vernonia amygdalina (Bitter Leaf)", image: "https://upload.wikimedia.org/wikipedia/commons/6/6d/Vernonia_amygdalina.jpg", description: "Bitter Leaf — Medicinal shrub for malaria and digestive aid." },
+        { name: "Erythrina brucei (Flame Coral Tree)", image: "https://upload.wikimedia.org/wikipedia/commons/5/52/Erythrina_brucei.jpg", description: "Flame Coral Tree — Used for fencing and erosion control." },
+        { name: "Persea americana (Avocado)", image: "https://upload.wikimedia.org/wikipedia/commons/f/fd/Persea_americana_fruit.jpg", description: "Avocado — Tree for food, shade, and homegardens." }
       ],
       "Western Ethiopia": [
-        { name: "Cordia africana", image: "https://upload.wikimedia.org/wikipedia/commons/3/30/Cordia_africana.jpg", description: "Culturally significant tree used for furniture and medicine." },
-        { name: "Millettia ferruginea", image: "https://upload.wikimedia.org/wikipedia/commons/2/2d/Millettia_ferruginea.jpg", description: "Nitrogen fixer and insect repellant." },
-        { name: "Mangifera indica", image: "https://upload.wikimedia.org/wikipedia/commons/e/e4/Mangoes_pic.jpg", description: "Mango tree, economic and nutritional value." }
+        { name: "Cordia africana (East African Cordia)", image: "https://upload.wikimedia.org/wikipedia/commons/3/30/Cordia_africana.jpg", description: "East African Cordia — Used in furniture, rituals, and traditional medicine." },
+        { name: "Millettia ferruginea (Birbira)", image: "https://upload.wikimedia.org/wikipedia/commons/2/2d/Millettia_ferruginea.jpg", description: "Birbira — Nitrogen-fixing tree that repels pests and improves soil." },
+        { name: "Mangifera indica (Mango)", image: "https://upload.wikimedia.org/wikipedia/commons/e/e4/Mangoes_pic.jpg", description: "Mango — Fruit tree offering food, shade, and economic benefits." }
       ],
       "Central Highlands": [
-        { name: "Croton macrostachyus", image: "https://upload.wikimedia.org/wikipedia/commons/b/bc/Croton_macrostachyus.jpg", description: "Used for erosion control and medicine." },
-        { name: "Faidherbia albida", image: "https://upload.wikimedia.org/wikipedia/commons/4/4d/Faidherbia_albida_tree.jpg", description: "Supports intercropping and soil fertility." },
-        { name: "Coffea arabica", image: "https://upload.wikimedia.org/wikipedia/commons/c/cc/Coffea_arabica_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-193.jpg", description: "Ethiopian coffee tree, culturally important." }
+        { name: "Croton macrostachyus (Broad-leaved Croton)", image: "https://upload.wikimedia.org/wikipedia/commons/b/bc/Croton_macrostachyus.jpg", description: "Broad-leaved Croton — Used for erosion control, shade, and medicine." },
+        { name: "Faidherbia albida (Apple-ring Acacia)", image: "https://upload.wikimedia.org/wikipedia/commons/4/4d/Faidherbia_albida_tree.jpg", description: "Apple-ring Acacia — Supports intercropping, enhances soil fertility." },
+        { name: "Coffea arabica (Arabica Coffee)", image: "https://upload.wikimedia.org/wikipedia/commons/c/cc/Coffea_arabica_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-193.jpg", description: "Arabica Coffee — Culturally important crop grown under shade." }
       ]
     };
 
