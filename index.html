@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Indigenous Plant Explorer</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom right, #e3f2fd, #ffffff);
+      color: #1b5e20;
+    }
+    .hero {
+      text-align: center;
+      background: url('https://cdn.pixabay.com/photo/2017/09/06/11/17/leaves-2722564_1280.png') repeat-x top center;
+      background-size: contain;
+      padding: 2em;
+      animation: floatLeaves 10s linear infinite;
+      position: relative;
+    }
+    @keyframes floatLeaves {
+      0% { background-position-x: 0; }
+      100% { background-position-x: 1000px; }
+    }
+    .mascot {
+      position: absolute;
+      bottom: -50px;
+      right: 20px;
+      animation: floatMascot 4s ease-in-out infinite;
+      width: 100px;
+    }
+    @keyframes floatMascot {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    h2 {
+      font-size: 3em;
+      color: #004d40;
+      margin: 0;
+    }
+    .regions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1em;
+      padding: 1em;
+    }
+    .region-btn {
+      background: #aed581;
+      color: #1b5e20;
+      font-size: 1.2em;
+      padding: 1em;
+      border-radius: 15px;
+      border: none;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .region-btn:hover {
+      background: #7cb342;
+      color: white;
+    }
+    .plant-info {
+      padding: 2em;
+      background-color: #f1f8e9;
+    }
+    .plant-card {
+      border: 2px dashed #c5e1a5;
+      border-radius: 12px;
+      padding: 1em;
+      margin-bottom: 1.5em;
+      background: #ffffff;
+      box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+    }
+    .plant-card img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 12px;
+      border: 2px solid #81c784;
+      float: left;
+      margin-right: 1em;
+    }
+    .speak-btn, .surprise-btn {
+      background: #66bb6a;
+      color: white;
+      border: none;
+      padding: 0.5em 1em;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-top: 0.5em;
+    }
+    .speak-btn:hover, .surprise-btn:hover {
+      background: #388e3c;
+    }
+  </style>
+</head>
+<body>
+  <div class="hero">
+    <h2>🌿 Indigenous Plant Explorer 🌿</h2>
+    <p>Explore native and underutilized plants by region 🌍</p>
+    <img class="mascot" src="https://media.giphy.com/media/12HZukMBlutpoQ/giphy.gif" alt="Plant Mascot" />
+  </div>
+
+  <div class="regions">
+    <button class="region-btn" onclick="showRegion('Northern Ethiopia')">Northern Ethiopia</button>
+    <button class="region-btn" onclick="showRegion('Southern Ethiopia')">Southern Ethiopia</button>
+    <button class="region-btn" onclick="showRegion('Western Ethiopia')">Western Ethiopia</button>
+    <button class="region-btn" onclick="showRegion('Central Highlands')">Central Highlands</button>
+    <button class="region-btn" onclick="showRegion('Tanzania')">Tanzania</button>
+    <button class="region-btn" onclick="showRegion('Zimbabwe')">Zimbabwe</button>
+    <button class="region-btn" onclick="showRegion('South Africa')">South Africa</button>
+    <button class="surprise-btn" onclick="surpriseMe()">🌟 Surprise Me!</button>
+  </div>
+
+  <div class="plant-info" id="plant-info">
+    <h3 style="text-align:center;">Select a region to discover native plants</h3>
+  </div>
+
+  <script>
+    const regions = {
+      "Northern Ethiopia": [
+        { name: "Ficus vasta (Warka Tree)", image: "https://upload.wikimedia.org/wikipedia/commons/8/8f/Ficus_vasta_tree.jpg", description: "Sacred fig tree used in rituals, shade, and animal fodder." }
+      ],
+      "Southern Ethiopia": [
+        { name: "Vernonia amygdalina (Bitter Leaf)", image: "https://upload.wikimedia.org/wikipedia/commons/6/6d/Vernonia_amygdalina.jpg", description: "Medicinal shrub for malaria and digestive aid." }
+      ],
+      "Western Ethiopia": [
+        { name: "Cordia africana (East African Cordia)", image: "https://upload.wikimedia.org/wikipedia/commons/3/30/Cordia_africana.jpg", description: "Used in furniture, rituals, and traditional medicine." }
+      ],
+      "Central Highlands": [
+        { name: "Coffea arabica (Arabica Coffee)", image: "https://upload.wikimedia.org/wikipedia/commons/c/cc/Coffea_arabica_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-193.jpg", description: "Culturally important crop grown under shade." }
+      ],
+      "Tanzania": [
+        { name: "Allanblackia stuhlmannii (Butter Tree)", image: "https://upload.wikimedia.org/wikipedia/commons/a/a9/Allanblackia_stuhlmannii.jpg", description: "Seeds yield oil for food and industry." }
+      ],
+      "Zimbabwe": [
+        { name: "Uapaca kirkiana (Wild Loquat)", image: "https://upload.wikimedia.org/wikipedia/commons/e/e9/Uapaca_kirkiana_fruit.jpg", description: "Fruit-bearing tree valued for its sweet fruits." }
+      ],
+      "South Africa": [
+        { name: "Sclerocarya birrea (Marula)", image: "https://upload.wikimedia.org/wikipedia/commons/f/f3/Marula_fruits.jpg", description: "Used for juices, oils, and alcoholic beverages." }
+      ]
+    };
+
+    function showRegion(regionName) {
+      const container = document.getElementById('plant-info');
+      container.innerHTML = `<h3 style='text-align:center;'>🌱 Native Plants of ${regionName}</h3>`;
+      const regionPlants = regions[regionName];
+
+      if (!regionPlants || regionPlants.length === 0) {
+        container.innerHTML += `<p style='text-align:center;'>🚫 No plant data available for this region.</p>`;
+        return;
+      }
+
+      regionPlants.forEach(plant => {
+        const safeId = plant.name.replace(/\s+/g, '-');
+        container.innerHTML += `
+          <div class="plant-card">
+            <img src="${plant.image}" alt="${plant.name}" />
+            <div>
+              <h4>${plant.name}</h4>
+              <p id="desc-${safeId}">${plant.description}</p>
+              <button class="speak-btn" onclick="speakDescription('desc-${safeId}')">🔊 Read it to me</button>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    function speakDescription(id) {
+      const text = document.getElementById(id).innerText;
+      const msg = new SpeechSynthesisUtterance(text);
+      msg.rate = 0.9;
+      msg.pitch = 1.2;
+      msg.lang = 'en-US';
+      window.speechSynthesis.speak(msg);
+    }
+
+    function surpriseMe() {
+      const allPlants = Object.values(regions).flat();
+      const random = allPlants[Math.floor(Math.random() * allPlants.length)];
+      const container = document.getElementById('plant-info');
+      const safeId = random.name.replace(/\s+/g, '-');
+      container.innerHTML = `<h3 style='text-align:center;'>🌟 Surprise Plant!</h3>`;
+      container.innerHTML += `
+        <div class="plant-card">
+          <img src="${random.image}" alt="${random.name}" />
+          <div>
+            <h4>${random.name}</h4>
+            <p id="desc-${safeId}">${random.description}</p>
+            <button class="speak-btn" onclick="speakDescription('desc-${safeId}')">🔊 Read it to me</button>
+          </div>
+        </div>
+      `;
+    }
+  </script>
+</body>
+</html>
+
+
