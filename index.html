@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Indigenous Plant Explorer</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    #map {
+      height: 60vh;
+      width: 100%;
+    }
+    .plant-info {
+      padding: 1em;
+    }
+    .plant-card {
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 1em;
+      margin-bottom: 1em;
+      display: flex;
+      align-items: center;
+      gap: 1em;
+    }
+    .plant-card img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h2 style="text-align:center;">Indigenous Plant Explorer</h2>
+  <div id="map"></div>
+  <div class="plant-info" id="plant-info">
+    <h3>Click a region to see native plants</h3>
+  </div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    const map = L.map('map').setView([9.145, 40.4897], 5); // Centered on Ethiopia
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 18,
+    }).addTo(map);
+
+    const regions = [
+      {
+        name: "Wollega, Ethiopia",
+        coords: [9.5, 36.5],
+        plants: [
+          {
+            name: "Cordia africana",
+            image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Cordia_africana.jpg/640px-Cordia_africana.jpg",
+            description: "A native multipurpose tree used for timber, medicine, and shade. Important in cultural rituals."
+          },
+          {
+            name: "Millettia ferruginea",
+            image: "https://upload.wikimedia.org/wikipedia/commons/2/2d/Millettia_ferruginea.jpg",
+            description: "Used to improve soil fertility. Traditional uses include dye and medicine."
+          }
+        ]
+      }
+    ];
+
+    regions.forEach(region => {
+      const marker = L.marker(region.coords).addTo(map).bindPopup(region.name);
+      marker.on('click', () => {
+        const container = document.getElementById('plant-info');
+        container.innerHTML = `<h3>Native Plants of ${region.name}</h3>`;
+        region.plants.forEach(plant => {
+          container.innerHTML += `
+            <div class="plant-card">
+              <img src="${plant.image}" alt="${plant.name}" />
+              <div>
+                <h4>${plant.name}</h4>
+                <p>${plant.description}</p>
+              </div>
+            </div>
+          `;
+        });
+      });
+    });
+  </script>
+</body>
+</html>
