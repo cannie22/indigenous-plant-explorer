@@ -7,193 +7,167 @@
   <style>
     body {
       margin: 0;
-      display: flex;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #fefefe;
+      display: flex;
+      background: linear-gradient(to bottom right, #f0fdf4, #e0f2f1);
       color: #1b5e20;
     }
-
     .sidebar {
       width: 220px;
-      background-color: #e0f2e9;
-      padding: 1.5em 1em;
-      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-      min-height: 100vh;
+      background: #a5d6a7;
+      padding: 1em;
+      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+      height: 100vh;
+      overflow-y: auto;
+      position: fixed;
     }
-
     .sidebar h2 {
-      font-size: 1.5em;
-      margin-bottom: 1em;
+      font-size: 1.4em;
       text-align: center;
-      color: #2e7d32;
+      margin-bottom: 1em;
     }
-
     .region-btn {
       display: block;
       width: 100%;
-      background: #c8e6c9;
-      color: #2e7d32;
+      background: #7cb342;
+      color: white;
       font-size: 1em;
-      padding: 0.75em;
+      padding: 0.8em;
+      margin-bottom: 0.5em;
       border: none;
       border-radius: 8px;
-      margin-bottom: 0.5em;
       cursor: pointer;
       transition: background 0.3s;
     }
-
     .region-btn:hover {
-      background: #a5d6a7;
-      color: #1b5e20;
+      background: #558b2f;
     }
-
-    .region-btn.active {
-      background: #81c784;
-      font-weight: bold;
-    }
-
-    .main {
-      flex: 1;
+    .content {
+      margin-left: 240px;
       padding: 2em;
-      background: #f1f8e9;
+      width: 100%;
     }
-
-    .header {
-      text-align: center;
-      margin-bottom: 1.5em;
-    }
-
-    .header h1 {
-      font-size: 2em;
-      color: #33691e;
-      margin: 0;
-    }
-
     .plant-card {
-      border: 2px dashed #c5e1a5;
-      border-radius: 12px;
-      padding: 1em;
-      margin-bottom: 1.5em;
       background: #ffffff;
-      box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.05);
-      overflow: hidden;
+      border-left: 6px solid #a5d6a7;
+      margin-bottom: 1.5em;
+      padding: 1em;
+      border-radius: 10px;
+      box-shadow: 1px 2px 6px rgba(0,0,0,0.08);
     }
-
-    .plant-card img {
-      width: 100px;
-      height: 100px;
-      object-fit: cover;
-      border-radius: 12px;
-      border: 2px solid #81c784;
-      float: left;
-      margin-right: 1em;
+    .plant-card h3 {
+      margin: 0 0 0.5em 0;
+      font-size: 1.2em;
     }
-
+    .icons {
+      margin-bottom: 0.5em;
+      font-size: 1.3em;
+    }
     .speak-btn {
       background: #66bb6a;
       color: white;
       border: none;
-      padding: 0.4em 0.9em;
-      border-radius: 8px;
+      padding: 0.4em 0.8em;
+      border-radius: 6px;
       cursor: pointer;
-      margin-top: 0.5em;
     }
-
     .speak-btn:hover {
       background: #388e3c;
-    }
-
-    .surprise-btn {
-      background: #43a047;
-      color: white;
-      font-size: 1em;
-      padding: 0.7em;
-      border: none;
-      border-radius: 8px;
-      width: 100%;
-      margin-top: 1em;
-      cursor: pointer;
-    }
-
-    .surprise-btn:hover {
-      background: #2e7d32;
     }
   </style>
 </head>
 <body>
   <div class="sidebar">
-    <h2>Regions</h2>
-    <button class="region-btn" onclick="showRegion('Northern Ethiopia')">Northern Ethiopia</button>
+    <h2>🌿 Regions</h2>
     <button class="region-btn" onclick="showRegion('Southern Ethiopia')">Southern Ethiopia</button>
-    <button class="region-btn" onclick="showRegion('Western Ethiopia')">Western Ethiopia</button>
     <button class="region-btn" onclick="showRegion('Central Highlands')">Central Highlands</button>
+    <button class="region-btn" onclick="showRegion('Northern Ethiopia')">Northern Ethiopia</button>
+    <button class="region-btn" onclick="showRegion('Western Ethiopia')">Western Ethiopia</button>
     <button class="region-btn" onclick="showRegion('Tanzania')">Tanzania</button>
     <button class="region-btn" onclick="showRegion('Zimbabwe')">Zimbabwe</button>
     <button class="region-btn" onclick="showRegion('South Africa')">South Africa</button>
-    <button class="surprise-btn" onclick="surpriseMe()">🌟 Surprise Me!</button>
   </div>
 
-  <div class="main">
-    <div class="header">
-      <h1>🌿 Indigenous Plant Explorer 🌿</h1>
-      <p>Explore native and underutilized plants across Africa</p>
-    </div>
-    <div class="plant-info" id="plant-info">
-      <h3 style="text-align:center;">Select a region to discover native plants</h3>
-    </div>
+  <div class="content" id="plant-info">
+    <h2>Select a region to see plants</h2>
   </div>
 
   <script>
     const regions = {
-      "Northern Ethiopia": [
-        { name: "Ficus vasta (Warka Tree)", image: "https://upload.wikimedia.org/wikipedia/commons/8/8f/Ficus_vasta_tree.jpg", description: "Sacred fig tree used in rituals, shade, and animal fodder." }
-      ],
       "Southern Ethiopia": [
-        { name: "Vernonia amygdalina (Bitter Leaf)", image: "https://upload.wikimedia.org/wikipedia/commons/6/6d/Vernonia_amygdalina.jpg", description: "Medicinal shrub for malaria and digestive aid." }
-      ],
-      "Western Ethiopia": [
-        { name: "Cordia africana (East African Cordia)", image: "https://upload.wikimedia.org/wikipedia/commons/3/30/Cordia_africana.jpg", description: "Used in furniture, rituals, and traditional medicine." }
+        {
+          name: "Cordia africana",
+          description: "Used for traditional medicine and agroforestry.",
+          icons: "🧉"
+        },
+        {
+          name: "Vernonia amygdalina",
+          description: "Bitter leaf used for malaria and digestion.",
+          icons: "🧉"
+        }
       ],
       "Central Highlands": [
-        { name: "Coffea arabica (Arabica Coffee)", image: "https://upload.wikimedia.org/wikipedia/commons/c/cc/Coffea_arabica_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-193.jpg", description: "Culturally important crop grown under shade." }
+        {
+          name: "Coffea arabica",
+          description: "Grown under forest canopy; culturally important.",
+          icons: ""
+        }
+      ],
+      "Northern Ethiopia": [
+        {
+          name: "Ficus vasta",
+          description: "Shade, cultural rituals, sacred use.",
+          icons: ""
+        }
+      ],
+      "Western Ethiopia": [
+        {
+          name: "Cordia africana",
+          description: "Used in furniture, rituals, and medicine.",
+          icons: "🧉"
+        }
       ],
       "Tanzania": [
-        { name: "Allanblackia stuhlmannii (Butter Tree)", image: "https://upload.wikimedia.org/wikipedia/commons/a/a9/Allanblackia_stuhlmannii.jpg", description: "Seeds yield oil for food and industry." }
+        {
+          name: "Allanblackia stuhlmannii",
+          description: "Seeds used for edible oil production.",
+          icons: ""
+        }
       ],
       "Zimbabwe": [
-        { name: "Uapaca kirkiana (Wild Loquat)", image: "https://upload.wikimedia.org/wikipedia/commons/e/e9/Uapaca_kirkiana_fruit.jpg", description: "Fruit-bearing tree valued for its sweet fruits." }
+        {
+          name: "Uapaca kirkiana",
+          description: "Fruit-bearing; wild harvested.",
+          icons: "🍲"
+        }
       ],
       "South Africa": [
-        { name: "Sclerocarya birrea (Marula)", image: "https://upload.wikimedia.org/wikipedia/commons/f/f3/Marula_fruits.jpg", description: "Used for juices, oils, and alcoholic beverages." }
+        {
+          name: "Sclerocarya birrea",
+          description: "Marula tree; used for juice, oil, beverages.",
+          icons: "🍲"
+        }
       ]
     };
 
     function showRegion(regionName) {
       const container = document.getElementById('plant-info');
-      const buttons = document.querySelectorAll('.region-btn');
-      buttons.forEach(btn => btn.classList.remove('active'));
-
-      const activeBtn = Array.from(buttons).find(b => b.textContent === regionName);
-      if (activeBtn) activeBtn.classList.add('active');
-
-      container.innerHTML = `<h3 style='text-align:center;'>🌱 Native Plants of ${regionName}</h3>`;
+      container.innerHTML = `<h2>${regionName} - Indigenous Plants</h2>`;
       const regionPlants = regions[regionName];
 
       if (!regionPlants || regionPlants.length === 0) {
-        container.innerHTML += `<p style='text-align:center;'>🚫 No plant data available for this region.</p>`;
+        container.innerHTML += "<p>No data available.</p>";
         return;
       }
 
       regionPlants.forEach(plant => {
-        const safeId = plant.name.replace(/\s+/g, '-');
+        const id = plant.name.replace(/\s+/g, '-');
         container.innerHTML += `
           <div class="plant-card">
-            <img src="${plant.image}" alt="${plant.name}" />
-            <div>
-              <h4>${plant.name}</h4>
-              <p id="desc-${safeId}">${plant.description}</p>
-              <button class="speak-btn" onclick="speakDescription('desc-${safeId}')">🔊 Read it to me</button>
-            </div>
+            <h3>${plant.name}</h3>
+            <div class="icons">${plant.icons}</div>
+            <p id="desc-${id}">${plant.description}</p>
+            <button class="speak-btn" onclick="speakDescription('desc-${id}')">🔊 Read it to me</button>
           </div>
         `;
       });
@@ -207,25 +181,6 @@
       msg.lang = 'en-US';
       window.speechSynthesis.speak(msg);
     }
-
-    function surpriseMe() {
-      const allPlants = Object.values(regions).flat();
-      const random = allPlants[Math.floor(Math.random() * allPlants.length)];
-      const container = document.getElementById('plant-info');
-      const safeId = random.name.replace(/\s+/g, '-');
-      container.innerHTML = `<h3 style='text-align:center;'>🌟 Surprise Plant!</h3>`;
-      container.innerHTML += `
-        <div class="plant-card">
-          <img src="${random.image}" alt="${random.name}" />
-          <div>
-            <h4>${random.name}</h4>
-            <p id="desc-${safeId}">${random.description}</p>
-            <button class="speak-btn" onclick="speakDescription('desc-${safeId}')">🔊 Read it to me</button>
-          </div>
-        </div>
-      `;
-    }
   </script>
 </body>
 </html>
-
