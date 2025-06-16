@@ -8,62 +8,68 @@
   <style>
     body {
       margin: 0;
-      font-family: 'Comic Sans MS', cursive, sans-serif;
-      background: linear-gradient(to bottom, #e0f7fa, #ffffff);
-      color: #2e7d32;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom right, #f0fff4, #ffffff);
+      color: #1b5e20;
     }
     h2 {
       text-align: center;
-      background-color: #a5d6a7;
-      padding: 1em;
+      background-color: #c8e6c9;
+      padding: 1.2em;
       margin: 0;
-      font-size: 2em;
-      color: #004d40;
+      font-size: 2.5em;
+      color: #2e7d32;
       animation: pulse 3s infinite;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
     #map {
-      height: 50vh;
+      height: 35vh;
       width: 100%;
-      border-bottom: 5px solid #4caf50;
+      border-bottom: 4px solid #66bb6a;
+      z-index: 0;
     }
     .plant-info {
-      padding: 1em;
-      background-color: #f1f8e9;
+      padding: 1.5em;
+      background-color: #e8f5e9;
+      border-top: 4px solid #81c784;
+      position: relative;
+      z-index: 1;
     }
     .plant-card {
-      border: 2px dashed #81c784;
-      border-radius: 15px;
-      padding: 1em;
-      margin-bottom: 1em;
+      border: 2px solid #a5d6a7;
+      border-radius: 12px;
+      padding: 1.2em;
+      margin: 1em 0;
       display: flex;
       align-items: center;
       gap: 1em;
       background-color: #ffffff;
-      box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.1);
-      transition: transform 0.3s;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+      transition: all 0.3s ease-in-out;
     }
     .plant-card:hover {
-      transform: scale(1.03);
+      transform: translateY(-5px) scale(1.01);
+      background: #f9fff9;
     }
     .plant-card img {
-      width: 120px;
-      height: 120px;
+      width: 100px;
+      height: 100px;
       object-fit: cover;
-      border-radius: 15px;
-      border: 3px solid #66bb6a;
+      border-radius: 10px;
+      border: 2px solid #66bb6a;
     }
     .speak-btn {
-      background: #66bb6a;
+      background: #388e3c;
       color: white;
       border: none;
-      padding: 0.5em 1em;
-      border-radius: 10px;
+      padding: 0.4em 0.8em;
+      border-radius: 8px;
       cursor: pointer;
-      font-size: 1em;
-      margin-top: 0.5em;
+      font-size: 0.95em;
+      margin-top: 0.4em;
     }
     .speak-btn:hover {
-      background: #388e3c;
+      background: #1b5e20;
     }
     @keyframes pulse {
       0% { transform: scale(1); }
@@ -73,34 +79,38 @@
   </style>
 </head>
 <body>
-  <h2>🌿 Indigenous Plant Explorer 🌼</h2>
+  <h2>🌿 Indigenous Plant Explorer 🌍</h2>
   <div id="map"></div>
   <div class="plant-info" id="plant-info">
-    <h3 style="text-align:center;">Click a region to see native plants!</h3>
+    <h3 style="text-align:center;">Click a region to discover its native plants 🌱</h3>
   </div>
 
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
-    const map = L.map('map').setView([9.145, 40.4897], 5);
+    const map = L.map('map', {
+      zoomControl: false,
+      attributionControl: false
+    }).setView([9.145, 40.4897], 6);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 18,
+      maxZoom: 10,
+      detectRetina: true
     }).addTo(map);
 
     const regions = [
       {
-        name: "Wollega, Ethiopia",
+        name: "Western Ethiopia",
         coords: [9.5, 36.5],
         plants: [
           {
             name: "Cordia africana",
             image: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Cordia_africana.jpg/640px-Cordia_africana.jpg",
-            description: "A native multipurpose tree used for timber, medicine, and shade. Important in cultural rituals."
+            description: "Used in traditional Ethiopian rituals, furniture making, and biodiversity preservation."
           },
           {
             name: "Millettia ferruginea",
             image: "https://upload.wikimedia.org/wikipedia/commons/2/2d/Millettia_ferruginea.jpg",
-            description: "Used to improve soil fertility. Traditional uses include dye and medicine."
+            description: "Fixes nitrogen in soil, supports pollinators, and offers herbal uses."
           }
         ]
       }
@@ -110,7 +120,7 @@
       const marker = L.marker(region.coords).addTo(map).bindPopup(region.name);
       marker.on('click', () => {
         const container = document.getElementById('plant-info');
-        container.innerHTML = `<h3 style='text-align:center;'>🌱 Native Plants of ${region.name}</h3>`;
+        container.innerHTML = `<h3 style='text-align:center;'>🌳 Native Plants of ${region.name}</h3>`;
         region.plants.forEach(plant => {
           const safeId = plant.name.replace(/\s+/g, '-');
           container.innerHTML += `
